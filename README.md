@@ -7,10 +7,10 @@
   = 현재 로컬 master 브랜치의 commit 기록을 (원격저장소)가 가리키는 저장소로 보내라
 
 - 로컬 저장소:
-    Desktop
-    └── git-practice
-        ├── README.md
-        └── .git
+            Desktop
+            └── git-practice
+                ├── README.md
+                └── .git
 
 
 - 두 개의 원격 저장소 연결:
