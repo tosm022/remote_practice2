@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Black Skirts: 아날로그 디스코그래피 아카이브</title>
-    
-    <!-- Pretendard 고정 및 아이콘 선언 -->
+    <title>THE BLACK SKIRTS — 검정치마 디스코그래피 아카이브</title>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Tailwind CSS 로드 및 커스텀 테마 구성 -->
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -24,6 +22,7 @@
                     },
                     fontFamily: {
                         sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+                        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
                     }
                 }
             }
@@ -31,24 +30,28 @@
     </script>
 
     <style>
-        /* 기본 스무스 스크롤링 및 스크롤바 제어 */
-        html {
-            scroll-behavior: smooth;
-        }
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0A0507;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #E11D48;
-            border-radius: 3px;
-        }
+        html { scroll-behavior: smooth; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0A0507; }
+        ::-webkit-scrollbar-thumb { background: #E11D48; border-radius: 3px; }
 
-        /* 텍스트 섀도우 및 VHS 블러 효과 */
         .vhs-glow {
             text-shadow: 0 0 20px rgba(225, 29, 72, 0.75), 0 0 40px rgba(225, 29, 72, 0.3);
+        }
+
+        /* 키보드 포커스 가시성 (접근성 최소 기준) */
+        a:focus-visible, button:focus-visible, input:focus-visible,
+        select:focus-visible, [tabindex]:focus-visible {
+            outline: 2px solid #E11D48;
+            outline-offset: 2px;
+        }
+
+        /* 모션 최소화 선호 존중 */
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            .fa-record-vinyl { animation: none !important; }
+            #particle-canvas { display: none; }
+            .animate-pulse { animation: none !important; }
         }
     </style>
 </head>
@@ -70,7 +73,7 @@
                 THE BLACK SKIRTS <span class="text-crimsonRed">ARCHIVE</span>
             </a>
             <ul class="hidden md:flex gap-6 text-xs font-semibold uppercase tracking-wider text-slate-400">
-                <li><a href="#home" class="nav-link hover:text-crimsonRed transition-colors active text-crimsonRed">Home</a></li>
+                <li><a href="#home" class="nav-link hover:text-crimsonRed transition-colors text-crimsonRed">Home</a></li>
                 <li><a href="#dashboard" class="nav-link hover:text-crimsonRed transition-colors">Overview</a></li>
                 <li><a href="#archive" class="nav-link hover:text-crimsonRed transition-colors">Discography</a></li>
                 <li><a href="#timeline" class="nav-link hover:text-crimsonRed transition-colors">Timeline</a></li>
@@ -79,225 +82,260 @@
         </div>
     </nav>
 
-    <!-- 1. 히어로 섹션 (#home) -->
+    <!-- 1. 히어로 섹션 -->
     <section id="home" class="relative pt-48 pb-32 border-b border-crimsonRed/15 flex items-center min-h-[85vh]">
         <div class="max-w-[1140px] mx-auto px-6 w-full relative z-20">
-            <!-- VHS 레코더 인디케이터 -->
             <div class="absolute -top-12 right-6 font-mono text-xs text-crimsonRed/70 tracking-widest uppercase animate-pulse flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-crimsonRed inline-block"></span> PLAY 1999
+                <span class="w-2 h-2 rounded-full bg-crimsonRed inline-block"></span> ▶ NOW PLAYING
             </div>
-            
+
             <div class="text-center">
                 <span class="inline-block text-xs font-semibold text-crimsonRed bg-crimsonRed/10 px-4 py-1.5 rounded-full border border-crimsonRed/25 tracking-widest uppercase mb-8">
-                    The Black Skirts Universe
+                    검정치마 · 조휴일 디스코그래피
                 </span>
-                <!-- 요청대로 간결하고 직관적인 타이틀로 전면 수정 -->
-                <h1 class="text-5xl md:text-8xl font-black tracking-tighter uppercase mb-8 vhs-glow text-white select-none">
+                <h1 class="text-5xl md:text-8xl font-black tracking-tighter uppercase mb-4 vhs-glow text-white select-none">
                     THE BLACK SKIRTS
                 </h1>
+                <p class="text-crimsonRed font-semibold tracking-[0.3em] text-sm mb-8 uppercase">검 정 치 마</p>
                 <p class="text-slate-400 text-base md:text-lg max-w-2xl mx-auto mb-12 leading-relaxed font-light">
-                    정교하게 제어된 메인스트림 음향의 인위적 구성을 걷어내고,<br>조휴일이 그의 차가운 방에서 테이프로 빚어낸 날것의 주파수와 낭만을 추적합니다.
+                    뉴욕에서 시작해 서울에서 홀로 완성한 조휴일의 사운드.<br>
+                    침실 로파이에서 하이파이 세션까지, 앨범마다 다른 얼굴을 한 검정치마를 한 곳에 모았습니다.
                 </p>
                 <a href="#archive" class="inline-flex items-center gap-2.5 bg-crimsonRed hover:bg-red-700 text-white font-bold text-sm px-6 py-3.5 rounded transition-all duration-200 shadow-lg shadow-crimsonRed/20 hover:-translate-y-[1px]">
-                    디스코그래피 아카이브 탐색 <i class="fa-solid fa-arrow-right text-xs"></i>
+                    디스코그래피 살펴보기 <i class="fa-solid fa-arrow-right text-xs"></i>
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- 2. 디스코그래피 대시보드 (#dashboard) -->
+    <!-- 2. 개요 대시보드 -->
     <section id="dashboard" class="py-24 border-b border-crimsonRed/15 relative z-20">
         <div class="max-w-[1140px] mx-auto px-6">
             <h2 class="text-xl font-bold tracking-tight uppercase flex items-center gap-2.5 mb-2">
-                <i class="fa-solid fa-sliders text-crimsonRed"></i> 사운드 변천사 매트릭스
+                <i class="fa-solid fa-sliders text-crimsonRed"></i> 한눈에 보는 검정치마
             </h2>
-            <p class="text-sm text-slate-400 mb-12 font-light">조휴일의 독자적인 1인 포크/록 프로덕션 체제가 구축한 음향적 변천 및 계량 데이터셋 요약입니다.</p>
-            
+            <p class="text-sm text-slate-400 mb-12 font-light">원맨 밴드 조휴일이 15년 넘게 쌓아온 사운드를 몇 개의 지표로 요약했습니다.</p>
+
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div class="bg-cardBlack border border-crimsonRed/15 p-6 rounded transition-all duration-300 hover:border-crimsonRed/40 hover:bg-cardHover">
-                    <span class="text-xs text-slate-400 block tracking-wider uppercase mb-3">정규 스튜디오 음반</span>
-                    <span class="text-2xl font-extrabold text-white block">05장</span>
-                    <span class="text-[11px] text-agedAmber block mt-2 font-medium"><i class="fa-solid fa-compact-disc"></i> 201부터 TEEN TROUBLES</span>
+                    <span class="text-xs text-slate-400 block tracking-wider uppercase mb-3">정규 발매</span>
+                    <span class="text-2xl font-extrabold text-white block">5장</span>
+                    <span class="text-[11px] text-agedAmber block mt-2 font-medium"><i class="fa-solid fa-compact-disc"></i> 1·2집 + 3집 3부작</span>
                 </div>
                 <div class="bg-cardBlack border border-crimsonRed/15 p-6 rounded transition-all duration-300 hover:border-crimsonRed/40 hover:bg-cardHover">
-                    <span class="text-xs text-slate-400 block tracking-wider uppercase mb-3">대표 사운드 텍스처</span>
+                    <span class="text-xs text-slate-400 block tracking-wider uppercase mb-3">사운드 변천</span>
                     <span class="text-2xl font-extrabold text-white block">Lo-Fi → Hi-Fi</span>
-                    <span class="text-[11px] text-agedAmber block mt-2 font-medium"><i class="fa-solid fa-wave-square"></i> 가내수공업 펑크에서 정교한 세션 편곡</span>
+                    <span class="text-[11px] text-agedAmber block mt-2 font-medium"><i class="fa-solid fa-wave-square"></i> 침실 펑크에서 정교한 세션 편곡으로</span>
                 </div>
                 <div class="bg-cardBlack border border-crimsonRed/15 p-6 rounded transition-all duration-300 hover:border-crimsonRed/40 hover:bg-cardHover">
-                    <span class="text-xs text-slate-400 block tracking-wider uppercase mb-3">주요 보컬 이펙팅 기법</span>
-                    <span class="text-2xl font-extrabold text-white block">Deep Reverb</span>
-                    <span class="text-[11px] text-agedAmber block mt-2 font-medium"><i class="fa-solid fa-sliders"></i> 깊은 공간감과 모노 오디오 레이어 믹스</span>
+                    <span class="text-xs text-slate-400 block tracking-wider uppercase mb-3">음악적 뿌리</span>
+                    <span class="text-2xl font-extrabold text-white block">뉴욕 펑크</span>
+                    <span class="text-[11px] text-agedAmber block mt-2 font-medium"><i class="fa-solid fa-guitar"></i> Television·Talking Heads·Weezer 계보</span>
                 </div>
                 <div class="bg-cardBlack border border-crimsonRed/15 p-6 rounded transition-all duration-300 hover:border-crimsonRed/40 hover:bg-cardHover">
-                    <span class="text-xs text-slate-400 block tracking-wider uppercase mb-3">플랫폼 아카이브 버전</span>
-                    <span class="text-2xl font-extrabold text-white block">v2.1 (독점)</span>
-                    <span class="text-[11px] text-agedAmber block mt-2 font-medium"><i class="fa-solid fa-shield-halved"></i> 검정치마 전용 데이터 연동 완료</span>
+                    <span class="text-xs text-slate-400 block tracking-wider uppercase mb-3">데뷔작 이력</span>
+                    <span class="text-2xl font-extrabold text-white block">201 (2008)</span>
+                    <span class="text-[11px] text-agedAmber block mt-2 font-medium"><i class="fa-solid fa-award"></i> 한국대중음악상 최우수 모던록 음반</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 3. 전작 아카이브 데이터셋 (#archive) -->
+    <!-- 3. 디스코그래피 아카이브 -->
     <section id="archive" class="py-24 border-b border-crimsonRed/15 relative z-20">
         <div class="max-w-[1140px] mx-auto px-6">
             <h2 class="text-xl font-bold tracking-tight uppercase flex items-center gap-2.5 mb-2">
-                <i class="fa-solid fa-folder-open text-crimsonRed"></i> 디스코그래피 아카이브 엔진
+                <i class="fa-solid fa-folder-open text-crimsonRed"></i> 디스코그래피
             </h2>
-            <p class="text-sm text-slate-400 mb-12 font-light">앨범 탭을 이동하여 조휴일이 남긴 자전적 텍스처와 비하인드 코멘터리를 교차 조회해 보세요.</p>
-            
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-2.5 mb-8">
-                <button class="album-tab-btn active bg-white/[0.02] border border-crimsonRed/15 text-slate-400 hover:bg-crimsonRed hover:text-white hover:border-crimsonRed p-4 rounded text-center transition-all duration-200 font-semibold text-xs" onclick="switchAlbum(1)">
-                    <span class="block text-[10px] font-normal opacity-50 mb-1">2008 / 정규 1집</span>201
+            <p class="text-sm text-slate-400 mb-3 font-light">앨범을 눌러 제작 배경과 사운드 리스닝 노트를 확인하세요. (← → 방향키로도 이동할 수 있어요.)</p>
+            <p class="text-[11px] text-slate-500 mb-8 font-light flex items-center gap-2">
+                <span class="inline-block w-2 h-2 rounded-full bg-agedAmber"></span>
+                표시된 세 앨범은 하나의 3집을 나눠 발매한 <span class="text-agedAmber font-medium">3부작</span>입니다.
+            </p>
+
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-2.5 mb-8" role="tablist" aria-label="검정치마 정규 앨범">
+                <button role="tab" aria-selected="true" class="album-tab-btn bg-crimsonRed text-white border border-crimsonRed p-4 rounded text-center transition-all duration-200 font-semibold text-xs" onclick="switchAlbum(1)">
+                    <span class="block text-[10px] font-normal opacity-60 mb-1">2008 · 정규 1집</span>201
                 </button>
-                <button class="album-tab-btn bg-white/[0.02] border border-crimsonRed/15 text-slate-400 hover:bg-crimsonRed hover:text-white hover:border-crimsonRed p-4 rounded text-center transition-all duration-200 font-semibold text-xs" onclick="switchAlbum(2)">
-                    <span class="block text-[10px] font-normal opacity-50 mb-1">2011 / 정규 2집</span>Don't You Worry Baby
+                <button role="tab" aria-selected="false" class="album-tab-btn bg-white/[0.02] border border-crimsonRed/15 text-slate-400 p-4 rounded text-center transition-all duration-200 font-semibold text-xs" onclick="switchAlbum(2)">
+                    <span class="block text-[10px] font-normal opacity-60 mb-1">2011 · 정규 2집</span>Don't You Worry Baby
                 </button>
-                <button class="album-tab-btn bg-white/[0.02] border border-crimsonRed/15 text-slate-400 hover:bg-crimsonRed hover:text-white hover:border-crimsonRed p-4 rounded text-center transition-all duration-200 font-semibold text-xs" onclick="switchAlbum(3)">
-                    <span class="block text-[10px] font-normal opacity-50 mb-1">2017 / 정규 3집 Pt.1</span>TEAM BABY
+                <button role="tab" aria-selected="false" class="album-tab-btn trilogy bg-white/[0.02] border border-crimsonRed/15 text-slate-400 p-4 rounded text-center transition-all duration-200 font-semibold text-xs relative" onclick="switchAlbum(3)">
+                    <span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-agedAmber"></span>
+                    <span class="block text-[10px] font-normal opacity-60 mb-1">2017 · 3집 Part.1</span>TEAM BABY
                 </button>
-                <button class="album-tab-btn bg-white/[0.02] border border-crimsonRed/15 text-slate-400 hover:bg-crimsonRed hover:text-white hover:border-crimsonRed p-4 rounded text-center transition-all duration-200 font-semibold text-xs" onclick="switchAlbum(4)">
-                    <span class="block text-[10px] font-normal opacity-50 mb-1">2019 / 정규 3집 Pt.2</span>THIRST
+                <button role="tab" aria-selected="false" class="album-tab-btn trilogy bg-white/[0.02] border border-crimsonRed/15 text-slate-400 p-4 rounded text-center transition-all duration-200 font-semibold text-xs relative" onclick="switchAlbum(4)">
+                    <span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-agedAmber"></span>
+                    <span class="block text-[10px] font-normal opacity-60 mb-1">2019 · 3집 Part.2</span>THIRSTY
                 </button>
-                <button class="album-tab-btn bg-white/[0.02] border border-crimsonRed/15 text-slate-400 hover:bg-crimsonRed hover:text-white hover:border-crimsonRed p-4 rounded text-center transition-all duration-200 font-semibold text-xs" onclick="switchAlbum(5)">
-                    <span class="block text-[10px] font-normal opacity-50 mb-1">2022 / 정규 5집</span>TEEN TROUBLES
+                <button role="tab" aria-selected="false" class="album-tab-btn trilogy bg-white/[0.02] border border-crimsonRed/15 text-slate-400 p-4 rounded text-center transition-all duration-200 font-semibold text-xs relative" onclick="switchAlbum(5)">
+                    <span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-agedAmber"></span>
+                    <span class="block text-[10px] font-normal opacity-60 mb-1">2022 · 3집 Part.3</span>TEEN TROUBLES
                 </button>
             </div>
 
-            <div class="bg-cardBlack border border-crimsonRed/15 p-8 md:p-10 rounded shadow-2xl" id="album-display">
-                <!-- JS 내부 데이터 렌더링 공간 -->
-            </div>
+            <div class="bg-cardBlack border border-crimsonRed/15 p-8 md:p-10 rounded shadow-2xl" id="album-display" role="tabpanel"></div>
         </div>
     </section>
 
-    <!-- 4. 타임라인 섹션 (#timeline) -->
+    <!-- 4. 타임라인 -->
     <section id="timeline" class="py-24 border-b border-crimsonRed/15 relative z-20">
         <div class="max-w-[1140px] mx-auto px-6">
             <h2 class="text-xl font-bold tracking-tight uppercase flex items-center gap-2.5 mb-2">
-                <i class="fa-solid fa-timeline text-crimsonRed"></i> 조휴일의 음악적 크로놀로지
+                <i class="fa-solid fa-timeline text-crimsonRed"></i> 조휴일의 발자취
             </h2>
-            <p class="text-sm text-slate-400 mb-12 font-light">미국 뉴욕 아웃사이더 씬의 거친 태동기부터 한국 인디 역사의 전환점에 서기까지의 실증적 타임라인입니다.</p>
-            
-            <div class="relative pl-6 before:content-[''] before:absolute before:left-1 before:top-2 before:bottom-2 before:width-[2px] before:bg-crimsonRed/15">
+            <p class="text-sm text-slate-400 mb-12 font-light">뉴욕의 3인조 펑크 밴드에서 한국 인디 씬의 상징이 되기까지.</p>
+
+            <div class="relative pl-6 before:content-[''] before:absolute before:left-1 before:top-2 before:bottom-2 before:w-[2px] before:bg-crimsonRed/15">
                 <div class="relative mb-10 pl-6 before:content-[''] before:absolute before:left-[-25px] before:top-1.5 before:w-2.5 before:h-2.5 before:rounded-full before:bg-crimsonRed before:border-[2px] before:border-wineBlack">
-                    <span class="text-xs font-bold text-crimsonRed tracking-wider block mb-1">2004 - 2006</span>
-                    <h4 class="text-base font-bold text-white mb-1">뉴욕 펑크 밴드 'Castel Prayon' 활동</h4>
-                    <p class="text-sm text-slate-400 leading-relaxed font-light">미국 현지 씬에서 거친 포스트 펑크, 로파이 파워 팝 사운드의 DIY 정신과 원시적 레코딩 편곡 노하우를 집약적으로 실험.</p>
+                    <span class="text-xs font-bold text-crimsonRed tracking-wider block mb-1">2004</span>
+                    <h4 class="text-base font-bold text-white mb-1">뉴욕에서 3인조 펑크 밴드로 결성</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed font-light">애리조나·인디애나·뉴욕·뉴저지를 전전하며 외국인 친구들과 밴드 활동. 이후 조휴일 혼자 남아 원맨 밴드로 전향한다. 텔레비전·토킹 헤즈로 대표되는 뉴욕 펑크가 이때 사운드의 뿌리가 됐다.</p>
                 </div>
 
                 <div class="relative mb-10 pl-6 before:content-[''] before:absolute before:left-[-25px] before:top-1.5 before:w-2.5 before:h-2.5 before:rounded-full before:bg-crimsonRed before:border-[2px] before:border-wineBlack">
                     <span class="text-xs font-bold text-crimsonRed tracking-wider block mb-1">2008. 11</span>
-                    <h4 class="text-base font-bold text-white mb-1">원맨 밴드 데뷔 음반 [201] 발매</h4>
-                    <p class="text-sm text-slate-400 leading-relaxed font-light">국내 인디 씬에 복귀 후, 방 안에서 혼자 시퀀싱하고 정렬한 트랙들로 국내 모던 록 평단과 씬에 신선한 음악적 파장을 연출.</p>
+                    <h4 class="text-base font-bold text-white mb-1">데뷔 정규 1집 《201》 발매</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed font-light">방 안에서 혼자 짜 맞춘 침실 로파이 파워팝으로 한국 인디 씬에 등장. 이듬해 한국대중음악상 최우수 모던록 음반을 수상하며 단숨에 주목받는다.</p>
                 </div>
 
                 <div class="relative mb-10 pl-6 before:content-[''] before:absolute before:left-[-25px] before:top-1.5 before:w-2.5 before:h-2.5 before:rounded-full before:bg-crimsonRed before:border-[2px] before:border-wineBlack">
                     <span class="text-xs font-bold text-crimsonRed tracking-wider block mb-1">2017. 05</span>
-                    <h4 class="text-base font-bold text-white mb-1">3집 Part.1 [TEAM BABY] 기획 및 음향 개편</h4>
-                    <p class="text-sm text-slate-400 leading-relaxed font-light">기존의 로우파이 가공법을 걷어내고, 70년대 올드 팝과 필름 현상액 같은 따뜻한 보컬 공간감을 투입하여 음악적 성장을 입증.</p>
+                    <h4 class="text-base font-bold text-white mb-1">긴 공백 끝에 3집 Part.1 《TEAM BABY》</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed font-light">로파이를 걷어내고 70년대 올드 팝·소울의 따뜻한 공간감을 입힌, 커리어에서 가장 하이파이한 전환점. 3집을 세 파트로 나눠 발매하는 대장정이 여기서 시작된다.</p>
                 </div>
 
-                <div class="relative pl-6 before:content-[''] before:absolute before:left-[-25px] before:top-1.5 before:w-2.5 before:h-2.5 before:rounded-full before:bg-crimsonRed before:border-[2px] before:border-wineBlack">
-                    <span class="text-xs font-bold text-crimsonRed tracking-wider block mb-1">2022. 08</span>
-                    <h4 class="text-base font-bold text-white mb-1">정규 5집 [TEEN TROUBLES] 및 이모 록 부활</h4>
-                    <p class="text-sm text-slate-400 leading-relaxed font-light">1999년의 아련한 유년기 방황의 질감을 담아 90년대 말 기성 밴드 사운드를 재해석하여 한층 견고해진 노스탤직 디스코그래피 구축.</p>
+                <div class="relative mb-10 pl-6 before:content-[''] before:absolute before:left-[-25px] before:top-1.5 before:w-2.5 before:h-2.5 before:rounded-full before:bg-crimsonRed before:border-[2px] before:border-wineBlack">
+                    <span class="text-xs font-bold text-crimsonRed tracking-wider block mb-1">2022. 09</span>
+                    <h4 class="text-base font-bold text-white mb-1">3집 Part.3 《TEEN TROUBLES》로 3부작 완성</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed font-light">미국에서 보낸 파란만장한 10대 시절을 옮겨 담은 자전적 앨범. 단편영화 〈Teen Troubles In Dirty Jersey〉와 함께 공개되며 5년에 걸친 3집 대서사에 마침표를 찍는다.</p>
+                </div>
+
+                <div class="relative pl-6 before:content-[''] before:absolute before:left-[-25px] before:top-1.5 before:w-2.5 before:h-2.5 before:rounded-full before:bg-agedAmber before:border-[2px] before:border-wineBlack">
+                    <span class="text-xs font-bold text-agedAmber tracking-wider block mb-1">2025</span>
+                    <h4 class="text-base font-bold text-white mb-1">첫 유럽 투어, 그리고 휴식기</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed font-light">커리어 첫 유럽 투어를 돌고, 5월 장충체육관 공연을 끝으로 다음 앨범 작업을 위한 휴식기에 들어간다. 다음 챕터를 기다리는 중.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 5. 최애곡 분석 로그 섹션 (#feedback) -->
+    <!-- 5. 최애곡 분석 로그 -->
     <section id="feedback" class="py-24 relative z-20">
         <div class="max-w-[1140px] mx-auto px-6">
             <h2 class="text-xl font-bold tracking-tight uppercase flex items-center gap-2.5 mb-2">
-                <i class="fa-solid fa-comment-dots text-crimsonRed"></i> 나의 검정치마 최애곡 분석 로그
+                <i class="fa-solid fa-comment-dots text-crimsonRed"></i> 나의 검정치마 최애곡 로그
             </h2>
-            <p class="text-sm text-slate-400 mb-12 font-light">단순한 감상평을 배제하고, 리스너로서 각인된 사운드 분석과 핵심 문학적 메타포를 명료하게 데이터베이스화해 주세요.</p>
-            
+            <p class="text-sm text-slate-400 mb-12 font-light">좋아하는 트랙과, 왜 좋은지 한 줄을 남겨보세요. 기록은 이 브라우저에만 저장됩니다.</p>
+
             <div class="bg-cardBlack border border-crimsonRed/15 rounded p-6 md:p-8">
-                <form class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-8" id="guestbook-form">
-                    <input type="text" id="v-name" class="bg-wineBlack/60 border border-crimsonRed/15 rounded p-3 text-sm text-slate-100 focus:outline-none focus:border-crimsonRed" placeholder="기록자 닉네임" required maxlength="10">
+                <form class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-6" id="guestbook-form">
+                    <input type="text" id="v-name" class="bg-wineBlack/60 border border-crimsonRed/15 rounded p-3 text-sm text-slate-100 focus:outline-none focus:border-crimsonRed" placeholder="닉네임" required maxlength="10">
                     <select id="v-track" class="bg-wineBlack/60 border border-crimsonRed/15 rounded p-3 text-sm text-slate-100 focus:outline-none focus:border-crimsonRed cursor-pointer" required>
-                        <option value="" disabled selected>분석 트랙 선택</option>
-                        <option value="Antifreeze">Antifreeze (1집)</option>
-                        <option value="좋아해줘">좋아해줘 (1집)</option>
-                        <option value="Love Shine">Love Shine (2집)</option>
-                        <option value="외롭고 시끄러운">외롭고 시끄러운 (2집)</option>
-                        <option value="Everything">Everything (3집 Pt.1)</option>
-                        <option value="나랑 아니면">나랑 아니면 (3집 Pt.1)</option>
-                        <option value="섬 (Island)">섬 (Island) (3집 Pt.2)</option>
-                        <option value="플라잉 b">플라잉 b (5집)</option>
-                        <option value="외형제">외형제 (5집)</option>
+                        <option value="" disabled selected>트랙 선택</option>
+                        <optgroup label="정규 1집 · 201">
+                            <option value="Antifreeze">Antifreeze</option>
+                            <option value="좋아해줘">좋아해줘</option>
+                        </optgroup>
+                        <optgroup label="정규 2집 · Don't You Worry Baby">
+                            <option value="Love Shine">Love Shine</option>
+                            <option value="외롭고 시끄러운">외롭고 시끄러운</option>
+                        </optgroup>
+                        <optgroup label="3집 Part.1 · TEAM BABY">
+                            <option value="Everything">Everything</option>
+                            <option value="나랑 아니면">나랑 아니면</option>
+                        </optgroup>
+                        <optgroup label="3집 Part.2 · THIRSTY">
+                            <option value="섬 (Island)">섬 (Island)</option>
+                        </optgroup>
+                        <optgroup label="3집 Part.3 · TEEN TROUBLES">
+                            <option value="Flying Bobs">Flying Bobs</option>
+                            <option value="어린양">어린양 (My Little Lambs)</option>
+                        </optgroup>
                     </select>
-                    <input type="text" id="v-msg" class="bg-wineBlack/60 border border-crimsonRed/15 rounded p-3 text-sm text-slate-100 focus:outline-none focus:border-crimsonRed" placeholder="구조적 사운드 연출 및 지향성 분석 한 줄 기록" required maxlength="60">
-                    <button type="submit" class="bg-crimsonRed hover:bg-red-700 text-white font-bold text-xs p-3 rounded transition-colors duration-200">기록 데이터 보관</button>
+                    <input type="text" id="v-msg" class="bg-wineBlack/60 border border-crimsonRed/15 rounded p-3 text-sm text-slate-100 focus:outline-none focus:border-crimsonRed" placeholder="이 곡이 좋은 이유 한 줄" required maxlength="60">
+                    <button type="submit" class="bg-crimsonRed hover:bg-red-700 text-white font-bold text-xs p-3 rounded transition-colors duration-200">기록 남기기</button>
                 </form>
-                
+
+                <div class="flex items-center justify-between mb-4 border-t border-crimsonRed/10 pt-4">
+                    <span id="log-count" class="text-[11px] text-slate-500 font-light"></span>
+                    <select id="v-filter" class="bg-wineBlack/60 border border-crimsonRed/15 rounded px-3 py-1.5 text-[11px] text-slate-300 focus:outline-none focus:border-crimsonRed cursor-pointer">
+                        <option value="">전체 보기</option>
+                    </select>
+                </div>
+
                 <div class="max-h-80 overflow-y-auto pr-2" id="log-list"></div>
             </div>
         </div>
     </section>
 
-    <!-- 푸터 -->
     <footer class="py-10 border-t border-crimsonRed/15 text-center text-xs text-slate-500 relative z-20">
         <div class="max-w-[1140px] mx-auto px-6">
-            <p>&copy; 2026 THE BLACK SKIRTS DATABASE. Curated under TEEN TROUBLES visual guidelines.</p>
+            <p>팬이 만든 비공식 디스코그래피 아카이브. 모든 음원·저작권은 검정치마와 소속사에 있습니다.</p>
+            <p class="mt-1 opacity-60">Fan-made archive · Not affiliated with the artist.</p>
         </div>
     </footer>
 
     <script>
+        // ── 앨범 데이터 (사운드 설명은 리스너의 주관적 감상입니다) ──
         const albumData = {
             1: {
-                title: "201",
-                meta: "침실 독립 레코딩 / 로파이 댄스 펑크 (2008)",
-                tracks: "총 10개 트랙 수록",
-                desc: "조휴일이 미국 뉴욕의 본인의 침실에서 컴퓨터 한 대와 오디오 카드를 들고 혼자 편곡 및 밴드 트랙 시뮬레이션을 완료한 선구자적 가내수공업 음반입니다. 드럼 머신의 건조한 질감 위에 날뛰는 서프 록 성향의 기타 톤과 유치한 듯 중독적인 뉴웨이브 신시사이저 소스를 직관적으로 조립하여 웰메이드 로우파이 가공법의 새 표준을 입증했습니다.",
-                bpm: "118 - 134 (댄서블)",
-                instrument: "Squier Stratocaster, 기본 미디 내장 신스",
-                feature: "완전 차단된 디지털 마스터 왜곡의 고수"
+                label: "정규 1집", title: "201",
+                meta: "침실 로파이 · 개러지/뉴욕 펑크 (2008)",
+                badge: "2008. 11. 13",
+                desc: "뉴욕에서 원맨 밴드로 돌아온 조휴일이 방 안에서 혼자 짜 맞춘 데뷔작. 위저와 스트록스를 떠올리게 하는 간결한 파워팝 위에 개러지 펑크의 거친 질감이 얹혀 있다. 이듬해 한국대중음악상 최우수 모던록 음반을 수상하며 씬에 강한 인상을 남겼다.",
+                tempo: "빠르고 들뜬 파워팝",
+                mood: "건조한 드럼 위 날 선 서프 기타",
+                impression: "다듬지 않은 데뷔작 특유의 생생함"
             },
             2: {
-                title: "Don't You Worry Baby (Is Only Movie)",
-                meta: "어쿠스틱 포크 / 아메리카나 컨트리 록 (2011)",
-                tracks: "총 13개 트랙 수록",
-                desc: "1집의 기계적 펑크 문법에서 완전 탈피하여 미국의 거친 포크와 정통 아메리카나 컨트리 사운드로 방향을 선회한 작품입니다. 서울로 귀국한 조휴일 본인이 정체성에 혼란을 느끼며 제작하였으며, 마이크 근접 레코딩을 통해 어쿠스틱 악기 본연의 나무 통 울림과 건조한 질감을 보강하는 비어있는 공간적 편곡이 특징입니다.",
-                bpm: "72 - 96 (슬로우 미디엄 포크)",
-                instrument: "Martin Acoustic, 하모니카, 탬버린",
-                feature: "리버브 공간감을 극도로 제한한 극단적 모노 지향"
+                label: "정규 2집", title: "Don't You Worry Baby (I'm Only Swimming)",
+                meta: "어쿠스틱 포크 · 아메리카나 (2011)",
+                badge: "2011. 07. 13",
+                desc: "1집의 기계적인 펑크에서 벗어나 포크와 아메리카나로 방향을 튼 작품. 서울로 돌아온 조휴일이 정체성의 혼란 속에서 그리움과 사랑을 노래한다. 근접 마이킹으로 어쿠스틱 악기의 나무 울림을 살리고 공간을 비워둔 편곡이 특징이다.",
+                tempo: "느긋한 미디엄 포크",
+                mood: "어쿠스틱 기타의 나무 울림, 비워둔 공간",
+                impression: "방황과 낭만이 나란히 놓인 정서"
             },
             3: {
-                title: "TEAM BABY",
-                meta: "올드 레트로 팝 / 드림 소울 발라드 (2017)",
-                tracks: "총 10개 트랙 수록",
-                desc: "검정치마의 디스코그래피 역사상 가장 하이파이(Hi-Fi)적인 사운드 세일즈를 달성한 명작입니다. 70년대 모타운 소울과 올드 팝 발라드 풍의 드럼 브레이크를 복제하고, 보컬 트랙에 극도로 깊고 짙은 플레이트 리버브(Plate Reverb) 모듈레이션을 깊게 입혀 마치 안개 속을 부유하는 듯한 드라마틱하고 포근한 사운드 텍스처를 완성했습니다.",
-                bpm: "74 - 84 (다운템포 소울 편곡)",
-                instrument: "Fender Jazzmaster, 빈티지 로즈 오르간",
-                feature: "멀티 트래킹 코러스 중첩을 통한 무한한 입체 보정"
+                label: "3집 Part.1", title: "TEAM BABY",
+                meta: "올드 팝 · 드림 소울 (2017)",
+                badge: "2017",
+                desc: "긴 공백 끝에 돌아온, 커리어에서 가장 하이파이한 사운드. 70년대 모타운 소울과 올드 팝 무드에 깊은 리버브로 감싼 보컬이 안개 속을 부유하는 듯한 질감을 만든다. \"사랑을 하고 있는 당신을 위한 앨범\"이라는 말과 잘 어울린다.",
+                tempo: "나른한 다운템포",
+                mood: "짙은 플레이트 리버브, 포근한 안개 같은 공간감",
+                impression: "부유하는 듯한 드림 팝 텍스처"
             },
             4: {
-                title: "THIRST",
-                meta: "개라지 사이케델릭 / 노이즈 클리핑 (2019)",
-                tracks: "총 12개 트랙 수록",
-                desc: "기존 3집 파트 1의 포근함을 배반하듯 사랑 뒤에 도사리는 타락과 불온함을 사운드로 이식한 작품입니다. 고의적으로 디지털 세츄레이션 압력을 증폭해 소리가 찢어지도록 설계한 클리핑 노이즈 믹스를 적극 차용했습니다. 개라지 포스트 펑크의 거칠고 위협적인 베이스 슬랩과 사이케델릭 디스토션 기타가 전면에서 갈증을 소리로 구현합니다.",
-                bpm: "105 - 128 (파괴적 미디엄 템포)",
-                instrument: "Gibson SG, 오버드라이브 페달 라인셋",
-                feature: "하드웨어 피크 한계를 무시한 극단적 마스터 컴프레션"
+                label: "3집 Part.2", title: "THIRSTY",
+                meta: "개러지 사이키델릭 · 노이즈 (2019)",
+                badge: "2019. 02. 12",
+                desc: "Part.1의 포근함을 배반하듯, 사랑 뒤에 도사린 갈증과 불온함을 사운드로 옮겼다. 일부러 찢어지도록 밀어붙인 거친 톤과 사이키델릭 디스토션, 위협적인 베이스가 전면에 나선다.",
+                tempo: "파괴적인 미디엄 록",
+                mood: "왜곡·클리핑, 밀어붙인 저역",
+                impression: "포근함을 배반하는 어둠과 긴장"
             },
             5: {
-                title: "TEEN TROUBLES",
-                meta: "90년대 말 이모 록 / 포스트 펑크 리프 (2022)",
-                tracks: "총 18개 트랙 수록",
-                desc: "본 아카이브 톤앤매너의 핵심 모델인 대작입니다. 조휴일이 실제 1999년 미국 고등학교 재학 시절 겪은 이모셔널한 갈등과 미완의 청춘 서사를 연출하기 위해, 90년대 말 대두된 미국 '이모 록(Emo Rock)'과 인디 포스트 펑크의 건조하지만 폭발적인 드럼 스네어 톤과 보컬의 절규를 완벽히 고증 및 배양해 냈습니다.",
-                bpm: "120 - 142 (질주하는 멜랑콜리 모던록)",
-                instrument: "Fender Telecaster, Matchless 진공관 앰프 스택",
-                feature: "90년대 말 현지 테이프 릴-투-릴 현상 마찰 노이즈"
+                label: "3집 Part.3", title: "TEEN TROUBLES",
+                meta: "이모 · 인디 록 · 자전적 청춘 (2022)",
+                badge: "2022. 09. 15",
+                desc: "조휴일이 미국에서 보낸 파란만장한 10대 시절을 그대로 옮겨 담은 자전적 앨범. 90년대 미국 이모·인디 록의 정서를 재해석했고, 단편영화 〈Teen Troubles In Dirty Jersey〉와 함께 공개되며 5년에 걸친 3집 3부작을 마무리했다.",
+                tempo: "질주하는 멜랑콜리 모던록",
+                mood: "폭발적인 스네어, 절규하는 보컬",
+                impression: "뉴저지의 미완의 청춘, 짙은 노스탤지어"
             }
         };
 
+        const totalAlbums = Object.keys(albumData).length;
+        let currentAlbum = 1;
+
         window.switchAlbum = function(albumId) {
+            currentAlbum = albumId;
             const buttons = document.querySelectorAll('.album-tab-btn');
             buttons.forEach((btn, index) => {
-                if(index === (albumId - 1)) {
+                const active = index === (albumId - 1);
+                btn.setAttribute('aria-selected', active ? 'true' : 'false');
+                if (active) {
                     btn.classList.add('bg-crimsonRed', 'text-white', 'border-crimsonRed');
                     btn.classList.remove('bg-white/[0.02]', 'text-slate-400', 'border-crimsonRed/15');
                 } else {
@@ -308,43 +346,64 @@
 
             const data = albumData[albumId];
             const display = document.getElementById('album-display');
-            
+
             display.innerHTML = `
                 <div class="flex flex-col md:flex-row justify-between items-start border-b border-crimsonRed/15 pb-5 mb-6 gap-4">
                     <div>
-                        <h3 class="text-xl md:text-2xl font-black text-white">정규 ${albumId}집 [${data.title}]</h3>
-                        <span class="text-xs text-agedAmber font-semibold tracking-wider uppercase mt-1.5 inline-block">${data.meta}</span>
+                        <span class="text-xs text-agedAmber font-semibold tracking-wider uppercase inline-block mb-1.5">${data.label}</span>
+                        <h3 class="text-xl md:text-2xl font-black text-white">${escapeHtml(data.title)}</h3>
+                        <span class="text-xs text-slate-400 font-medium mt-1.5 inline-block">${data.meta}</span>
                     </div>
                     <div>
-                        <span class="font-bold text-xs bg-crimsonRed/10 text-white px-3.5 py-2 rounded border border-crimsonRed/20 block">${data.tracks}</span>
+                        <span class="font-bold text-xs bg-crimsonRed/10 text-white px-3.5 py-2 rounded border border-crimsonRed/20 block whitespace-nowrap"><i class="fa-regular fa-calendar"></i> ${data.badge}</span>
                     </div>
                 </div>
                 <div>
                     <h4 class="text-sm font-bold text-white mb-2 flex items-center gap-2">
-                        <i class="fa-solid fa-compact-disc text-crimsonRed"></i> 제작 배경 및 아카이브 스펙 분석
+                        <i class="fa-solid fa-compact-disc text-crimsonRed"></i> 제작 배경
                     </h4>
-                    <p class="text-slate-400 text-sm leading-relaxed text-justify mb-6">${data.desc}</p>
+                    <p class="text-slate-400 text-sm leading-relaxed text-justify mb-6">${escapeHtml(data.desc)}</p>
+                    <h4 class="text-sm font-bold text-white mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-headphones text-crimsonRed"></i> 리스닝 노트 <span class="text-[10px] text-slate-500 font-normal">(주관적 감상)</span>
+                    </h4>
                     <div class="bg-wineBlack/40 border border-crimsonRed/15 rounded p-5 grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
-                            <span class="block text-[10px] text-slate-500 uppercase tracking-widest mb-1">분석 지표 BPM</span>
-                            <span class="text-xs font-semibold text-white">${data.bpm}</span>
+                            <span class="block text-[10px] text-slate-500 uppercase tracking-widest mb-1">체감 템포</span>
+                            <span class="text-xs font-semibold text-white">${escapeHtml(data.tempo)}</span>
                         </div>
                         <div>
-                            <span class="block text-[10px] text-slate-500 uppercase tracking-widest mb-1">핵심 배치 기재 악기</span>
-                            <span class="text-xs font-semibold text-white">${data.instrument}</span>
+                            <span class="block text-[10px] text-slate-500 uppercase tracking-widest mb-1">사운드 무드</span>
+                            <span class="text-xs font-semibold text-white">${escapeHtml(data.mood)}</span>
                         </div>
                         <div>
-                            <span class="block text-[10px] text-slate-500 uppercase tracking-widest mb-1">음향적 마스터 노이즈 성향</span>
-                            <span class="text-xs font-semibold text-white">${data.feature}</span>
+                            <span class="block text-[10px] text-slate-500 uppercase tracking-widest mb-1">한 줄 인상</span>
+                            <span class="text-xs font-semibold text-white">${escapeHtml(data.impression)}</span>
                         </div>
                     </div>
                 </div>
             `;
         };
 
+        function escapeHtml(str) {
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             switchAlbum(1);
 
+            // 앨범 탭 키보드 방향키 이동
+            const tablist = document.querySelector('[role="tablist"]');
+            tablist.addEventListener('keydown', (e) => {
+                if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+                e.preventDefault();
+                let next = e.key === 'ArrowRight' ? currentAlbum + 1 : currentAlbum - 1;
+                if (next > totalAlbums) next = 1;
+                if (next < 1) next = totalAlbums;
+                switchAlbum(next);
+                document.querySelectorAll('.album-tab-btn')[next - 1].focus();
+            });
+
+            // 스크롤 진행률 + 네비 활성화
             const progressBar = document.getElementById('scroll-progress-bar');
             const sections = document.querySelectorAll('section');
             const navLinks = document.querySelectorAll('.nav-link');
@@ -352,76 +411,85 @@
             window.addEventListener('scroll', () => {
                 const scrollTop = window.scrollY;
                 const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-                if(docHeight > 0) {
-                    progressBar.style.width = (scrollTop / docHeight) * 100 + '%';
-                }
+                if (docHeight > 0) progressBar.style.width = (scrollTop / docHeight) * 100 + '%';
 
                 let activeId = '';
                 sections.forEach(sec => {
-                    const top = sec.offsetTop - 100;
-                    if(scrollTop >= top) activeId = sec.getAttribute('id');
+                    if (scrollTop >= sec.offsetTop - 100) activeId = sec.getAttribute('id');
                 });
-
                 navLinks.forEach(link => {
-                    link.classList.remove('text-crimsonRed');
-                    if(link.getAttribute('href') === `#${activeId}`) link.classList.add('text-crimsonRed');
+                    link.classList.toggle('text-crimsonRed', link.getAttribute('href') === `#${activeId}`);
                 });
             });
 
-            // VHS 스크린 먼지 파티클 엔진
-            const canvas = document.getElementById('particle-canvas');
-            const ctx = canvas.getContext('2d');
-            let particles = [];
-
-            function resize() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
+            // VHS 먼지 파티클 (모션 최소화 선호 시 생략)
+            const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (!prefersReduced) {
+                const canvas = document.getElementById('particle-canvas');
+                const ctx = canvas.getContext('2d');
+                let particles = [];
+                function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+                resize();
+                window.addEventListener('resize', resize);
+                for (let i = 0; i < 35; i++) {
+                    particles.push({
+                        x: Math.random() * window.innerWidth,
+                        y: Math.random() * window.innerHeight,
+                        radius: Math.random() * 1.2 + 0.4,
+                        speedY: Math.random() * -0.06 - 0.02
+                    });
+                }
+                function draw() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = "rgba(225, 29, 72, 0.12)";
+                    particles.forEach(p => {
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                        ctx.fill();
+                        p.y += p.speedY;
+                        if (p.y < 0) { p.y = canvas.height; p.x = Math.random() * canvas.width; }
+                    });
+                    requestAnimationFrame(draw);
+                }
+                draw();
             }
-            resize();
-            window.addEventListener('resize', resize);
 
-            for(let i=0; i<35; i++) {
-                particles.push({
-                    x: Math.random() * window.innerWidth,
-                    y: Math.random() * window.innerHeight,
-                    radius: Math.random() * 1.2 + 0.4,
-                    speedY: Math.random() * -0.06 - 0.02
-                });
-            }
-
-            function draw() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = "rgba(225, 29, 72, 0.12)";
-                particles.forEach(p => {
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                    ctx.fill();
-                    p.y += p.speedY;
-                    if(p.y < 0) {
-                        p.y = canvas.height;
-                        p.x = Math.random() * canvas.width;
-                    }
-                });
-                requestAnimationFrame(draw);
-            }
-            draw();
-
-            // LocalStorage 로그 시스템
+            // ── 최애곡 로그 (LocalStorage) ──
             const form = document.getElementById('guestbook-form');
             const nameInput = document.getElementById('v-name');
             const trackSelect = document.getElementById('v-track');
             const msgInput = document.getElementById('v-msg');
             const logList = document.getElementById('log-list');
+            const filterSelect = document.getElementById('v-filter');
+            const logCount = document.getElementById('log-count');
 
-            let logs = JSON.parse(localStorage.getItem('bs_track_logs')) || [];
+            let logs = [];
+            try { logs = JSON.parse(localStorage.getItem('bs_track_logs')) || []; } catch (e) { logs = []; }
+
+            function rebuildFilter() {
+                const tracks = [...new Set(logs.map(l => l.track))];
+                const current = filterSelect.value;
+                filterSelect.innerHTML = '<option value="">전체 보기</option>' +
+                    tracks.map(t => `<option value="${escapeHtml(t)}">${escapeHtml(t)}</option>`).join('');
+                if (tracks.includes(current)) filterSelect.value = current;
+            }
 
             function renderLogs() {
+                const filter = filterSelect.value;
+                const view = filter ? logs.filter(l => l.track === filter) : logs;
+
+                logCount.textContent = logs.length ? `총 ${logs.length}개의 기록` : '';
                 logList.innerHTML = '';
-                if(logs.length === 0) {
-                    logList.innerHTML = '<div class="text-center py-8 text-slate-500 text-xs font-light">아직 수집된 분석 로그가 없습니다. 첫 기록 데이터를 전송해 보세요.</div>';
+
+                if (view.length === 0) {
+                    logList.innerHTML = logs.length === 0
+                        ? '<div class="text-center py-8 text-slate-500 text-xs font-light">아직 기록이 없어요. 좋아하는 곡의 첫 한 줄을 남겨보세요.</div>'
+                        : '<div class="text-center py-8 text-slate-500 text-xs font-light">이 트랙에 남긴 기록이 없어요.</div>';
                     return;
                 }
-                logs.forEach((item, index) => {
+
+                view.forEach((item) => {
+                    const realIndex = logs.indexOf(item);
                     const row = document.createElement('div');
                     row.className = 'flex justify-between items-start py-4 border-b border-crimsonRed/10';
                     row.innerHTML = `
@@ -429,11 +497,11 @@
                             <div class="flex flex-wrap items-center gap-2 mb-1.5 text-xs text-slate-500">
                                 <span class="font-bold text-slate-300">${escapeHtml(item.name)}</span>
                                 <span class="text-[10px] bg-agedAmber/10 text-agedAmber px-1.5 py-0.5 rounded font-semibold"><i class="fa-solid fa-music"></i> ${escapeHtml(item.track)}</span>
-                                <span class="text-[10px]">${item.date}</span>
+                                <span class="text-[10px]">${escapeHtml(item.date)}</span>
                             </div>
                             <p class="text-sm text-slate-300 font-light break-all leading-relaxed">${escapeHtml(item.msg)}</p>
                         </div>
-                        <button class="text-crimsonRed/40 hover:text-crimsonRed transition-colors duration-200 text-xs p-1" onclick="deleteLog(${index})">
+                        <button aria-label="기록 삭제" class="text-crimsonRed/40 hover:text-crimsonRed transition-colors duration-200 text-xs p-1" onclick="deleteLog(${realIndex})">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     `;
@@ -441,13 +509,9 @@
                 });
             }
 
-            function escapeHtml(str) {
-                return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-            }
-
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
-                if(!nameInput.value.trim() || !trackSelect.value || !msgInput.value.trim()) return;
+                if (!nameInput.value.trim() || !trackSelect.value || !msgInput.value.trim()) return;
 
                 const today = new Date();
                 const dateString = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
@@ -463,15 +527,20 @@
                 nameInput.value = '';
                 trackSelect.value = '';
                 msgInput.value = '';
+                rebuildFilter();
                 renderLogs();
             });
+
+            filterSelect.addEventListener('change', renderLogs);
 
             window.deleteLog = function(index) {
                 logs.splice(index, 1);
                 localStorage.setItem('bs_track_logs', JSON.stringify(logs));
+                rebuildFilter();
                 renderLogs();
             };
 
+            rebuildFilter();
             renderLogs();
         });
     </script>
