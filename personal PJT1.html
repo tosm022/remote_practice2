@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인디 레코드 데이터 아카이브 (IRDA)</title>
+    
+    <!-- Pretendard 고정 및 아이콘 선언 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- 1. 변수 및 초기화 (TEEN TROUBLES 무드셋) --- */
+        :root {
+            --bg-color: #0A0507; /* 깊고 어두운 와인 블랙 */
+            --bg-card: #150D10;  /* 로파이한 정서의 어두운 매트 카디널 */
+            --bg-card-hover: #1F1318;
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+            --accent-red: #E11D48; /* TEEN TROUBLES를 상징하는 크림슨 네온 레드 */
+            --accent-amber: #D97706; /* 빛바랜 필름 질감의 앰버 옐로우 */
+            --border-color: rgba(225, 29, 72, 0.12); /* 미세한 붉은 광도의 테두리 */
+            --font-main: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-main) !important;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+            letter-spacing: -0.02em;
+        }
+
+        /* --- 2. 스크롤 및 고정 요소 --- */
+        #scroll-progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.02);
+            z-index: 2000;
+        }
+
+        #scroll-progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: var(--accent-red);
+            transition: width 0.1s ease-out;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.5;
+        }
+
+        /* --- 3. 글로벌 레이아웃 --- */
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        section {
+            padding: 110px 0 50px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+            letter-spacing: -0.01em;
+        }
+
+        .section-title i {
+            color: var(--accent-red);
+        }
+
+        .section-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 40px;
+        }
+
+        /* --- 4. 내비게이션 바 --- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 5, 7, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 64px;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 0.05em;
+        }
+
+        .logo i {
+            color: var(--accent-red);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a.active, .nav-links a:hover {
+            color: var(--accent-red);
+        }
+
+        /* --- 5. 히어로 섹션 (#home) --- */
+        #home {
+            padding: 180px 0 120px 0;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            color: var(--accent-red);
+            background: rgba(225, 29, 72, 0.08);
+            padding: 4px 14px;
+            border-radius: 20px;
+            margin-bottom: 28px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            border: 1px solid rgba(225, 29, 72, 0.2);
+        }
+
+        #home h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.35;
+            margin-bottom: 24px;
+            letter-spacing: -0.04em;
+            color: var(--text-main);
+            text-shadow: 0 0 40px rgba(225, 29, 72, 0.15);
+        }
+
+        #home p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            max-width: 640px;
+            margin: 0 auto 44px auto;
+            line-height: 1.7;
+        }
+
+        .hero-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--accent-red);
+            color: white;
+            text-decoration: none;
+            padding: 12px 26px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .hero-btn:hover {
+            background-color: #BE123C;
+            transform: translateY(-1px);
+        }
+
+        /* --- 6. 대시보드 섹션 (#dashboard) --- */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .metric-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 24px;
+            border-radius: 6px;
+        }
+
+        .metric-card .label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            display: block;
+            letter-spacing: 0.02em;
+        }
+
+        .metric-card .value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .metric-card .subtext {
+            font-size: 0.75rem;
+            color: var(--accent-amber);
+            margin-top: 6px;
+            display: block;
+        }
+
+        /* --- 7. 아카이브 데이터셋 (#archive) --- */
+        .filter-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 16px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--accent-red);
+            color: white;
+            border-color: var(--accent-red);
+        }
+
+        .archive-counter {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        .story-card {
+            background-color: var(--bg-card);
+            border-radius: 6px;
+            padding: 32px;
+            border: 1px solid var(--border-color);
+            transition: border-color 0.2s, background-color 0.2s;
+        }
+
+        .story-card:hover {
+            border-color: rgba(225, 29, 72, 0.3);
+            background-color: var(--bg-card-hover);
+        }
+
+        .story-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+        }
+
+        .artist-info .meta-tag {
+            font-size: 0.75rem;
+            color: var(--accent-amber);
+            font-weight: 600;
+            letter-spacing: 0.03em;
+        }
+
+        .artist-info h3 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        .track-specs {
+            text-align: right;
+        }
+
+        .track-title-badge {
+            font-weight: 600;
+            font-size: 0.85rem;
+            background: rgba(225, 29, 72, 0.1);
+            color: var(--text-main);
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .track-tech-meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+
+        .story-body h4 {
+            font-size: 0.9rem;
+            color: var(--text-main);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .story-body p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .tech-specs-box {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.03);
+            border-radius: 4px;
+            padding: 16px;
+            margin-top: 16px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .tech-spec-item .label {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+
+        .tech-spec-item .value {
+            font-size: 0.85rem;
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        /* --- 8. 타임라인 섹션 (#timeline) --- */
+        .timeline-container {
+            position: relative;
+            padding-left: 24px;
+        }
+
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 4px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: var(--border-color);
+        }
+
+        .timeline-node {
+            position: relative;
+            margin-bottom: 36px;
+        }
+
+        .timeline-node::before {
+            content: '';
+            position: absolute;
+            left: -24px;
+            top: 6px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent-red);
+            border: 2px solid var(--bg-color);
+        }
+
+        .timeline-date {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent-red);
+            margin-bottom: 4px;
+            letter-spacing: 0.05em;
+        }
+
+        .timeline-content h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .timeline-content p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* --- 9. 방명록/피드백 로그 섹션 (#feedback) --- */
+        .guestbook-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 28px;
+        }
+
+        .guestbook-form {
+            display: grid;
+            grid-template-columns: 160px 1fr auto;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .guestbook-input {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 12px;
+            color: var(--text-main);
+            font-size: 0.85rem;
+        }
+
+        .guestbook-input:focus {
+            outline: none;
+            border-color: var(--accent-red);
+        }
+
+        .guestbook-submit {
+            background: var(--accent-red);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 0 24px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+
+        .guestbook-submit:hover {
+            background-color: #BE123C;
+        }
+
+        .guestbook-list {
+            max-height: 280px;
+            overflow-y: auto;
+        }
+
+        .log-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.02);
+        }
+
+        .log-main .meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+
+        .log-main .meta .name {
+            font-weight: 600;
+            color: var(--text-main);
+            margin-right: 8px;
+        }
+
+        .log-main .text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .log-delete-btn {
+            background: transparent;
+            border: none;
+            color: var(--accent-red);
+            cursor: pointer;
+            font-size: 0.75rem;
+            padding: 4px;
+            opacity: 0.4;
+            transition: opacity 0.2s;
+        }
+
+        .log-delete-btn:hover {
+            opacity: 1;
+        }
+
+        /* --- 10. 반응형 미디어 쿼리 --- */
+        @media (max-width: 960px) {
+            .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+            .tech-specs-box { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            #home h1 { font-size: 1.9rem; }
+            .nav-links { display: none; }
+            .guestbook-form { grid-template-columns: 1fr; }
+            .metrics-grid { grid-template-columns: 1fr; }
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            border-top: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="scroll-progress-container"><div id="scroll-progress-bar"></div></div>
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- 고정 내비게이션 바 -->
+    <nav>
+        <div class="container nav-container">
+            <div class="logo"><i class="fa-solid fa-compact-disc"></i> IRDA</div>
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#dashboard" class="nav-link">Dashboard</a></li>
+                <li><a href="#archive" class="nav-link">Archive</a></li>
+                <li><a href="#timeline" class="nav-link">Timeline</a></li>
+                <li><a href="#feedback" class="nav-link">Feedback</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <!-- 히어로 섹션 (기획안 반영 카피라이팅 & TEEN TROUBLES 무드) -->
+        <section id="home">
+            <span class="hero-badge">THE NOISE WE LOVED IN THE DARK</span>
+            <h1>그 시절 우리가 탐닉했던<br>소음과 주파수의 아카이브</h1>
+            <p>정교하게 짜인 디지털 트래킹 뒤에 숨겨진 거칠고 찬란한 청춘의 파형. 한국 인디 아티스트들의 세션 레코딩 데이터와 밤의 비하인드를 수집합니다.</p>
+            <a href="#archive" class="hero-btn">데이터 트랙 탐색 <i class="fa-solid fa-arrow-right"></i></a>
+        </section>
+
+        <!-- 대시보드 섹션 -->
+        <section id="dashboard">
+            <h2 class="section-title"><i class="fa-solid fa-sliders"></i> 인디 신 사운드 매트릭스</h2>
+            <div class="section-desc">수집·분석 완료된 마스터 세션들의 핵심 프로덕션 지표 요약입니다.</div>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <span class="label">카테고리 트랙 수</span>
+                    <span class="value">04</span>
+                    <span class="subtext"><i class="fa-solid fa-bolt"></i> 록 / 포스트 팝</span>
+                </div>
+                <div class="metric-card">
+                    <span class="label">평균 질감 지향성</span>
+                    <span class="value">Lo-Fi / Analog</span>
+                    <span class="subtext">새츄레이션 경향 우세</span>
+                </div>
+                <div class="metric-card">
+                    <span class="label">주요 이펙팅 소스</span>
+                    <span class="value">Tape / Fuzz</span>
+                    <span class="subtext">빈티지 하드웨어 임베딩</span>
+                </div>
+                <div class="metric-card">
+                    <span class="label">아카이브 버전</span>
+                    <span class="value">v1.26</span>
+                    <span class="subtext">2026.07 정기 밸리데이션</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 아카이브 데이터셋 -->
+        <section id="archive">
+            <h2 class="section-title"><i class="fa-solid fa-folder-open"></i> 트랙 비하인드 데이터셋</h2>
+            <div class="section-desc">곡별 핵심 프로덕션 내역 및 음악 분석 자료 로그입니다.</div>
+            
+            <div class="filter-wrapper">
+                <div class="filter-buttons">
+                    <button class="filter-btn active" onclick="filterGenre('all')">전체</button>
+                    <button class="filter-btn" onclick="filterGenre('rock')">록 (Rock)</button>
+                    <button class="filter-btn" onclick="filterGenre('pop')">인디 팝 (Pop)</button>
+                </div>
+                <div class="archive-counter" id="archive-count">조회된 데이터: 4건</div>
+            </div>
+
+            <div class="story-grid" id="story-grid">
+                
+                <!-- 데이터 1: 검정치마 -->
+                <div class="story-card" data-genre="rock">
+                    <div class="story-header">
+                        <div class="artist-info">
+                            <span class="meta-tag">원맨 밴드 / 로파이 록</span>
+                            <h3>검정치마 (The Black Skirts)</h3>
+                        </div>
+                        <div class="track-specs">
+                            <span class="track-title-badge">Everything</span>
+                            <div class="track-tech-meta">발매: 2016 | Key: C Major</div>
+                        </div>
+                    </div>
+                    <div class="story-body">
+                        <h4>제작 맥락 및 셋업 비하인드</h4>
+                        <p>조휴일이 개인 홈 레코딩 스케치를 기반으로 비교적 단시간에 프로덕션을 완료한 트랙입니다. 복잡한 모듈레이션을 배제하고 4개의 코드 진행(C - Em - F - Fm) 구조를 무한 반복하는 미니멀리즘 형식을 취하고 있습니다. 공간감을 확보하기 위해 보컬 트랙에 딥 플레이트 리버브를 깊게 적용한 것이 음향적 특징입니다.</p>
+                        <div class="tech-specs-box">
+                            <div class="tech-spec-item"><span class="label">BPM</span><span class="value">78 (다운템포)</span></div>
+                            <div class="tech-spec-item"><span class="label">메인 악기</span><span class="value">Fender Jazzmaster</span></div>
+                            <div class="tech-spec-item"><span class="label">특이사항</span><span class="value">아날로그 테이프 질감 시뮬레이션</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 데이터 2: 잔나비 -->
+                <div class="story-card" data-genre="pop">
+                    <div class="story-header">
+                        <div class="artist-info">
+                            <span class="meta-tag">클래식 팝 록 / 콰르텟</span>
+                            <h3>잔나비 (JANNABI)</h3>
+                        </div>
+                        <div class="track-specs">
+                            <span class="track-title-badge">주저하는 연인들을 위해</span>
+                            <div class="track-tech-meta">발매: 2019 | Key: Ab Major</div>
+                        </div>
+                    </div>
+                    <div class="story-body">
+                        <h4>제작 맥락 및 셋업 비하인드</h4>
+                        <p>1970-80년대 한국 전통 가요의 화성 진행을 현대적 발라드 문법에 이식한 트랙입니다. 디지털 가상 악기를 최대한 배제하고 실제 리얼 스트링 콰르텟 세션을 동원하여 수성 레코딩을 진행했습니다. 빈티지 신시사이저인 Mellotron 소스를 백그라운드에 배치하여 특유의 아날로그적이고 정적인 텍스처를 구현했습니다.</p>
+                        <div class="tech-specs-box">
+                            <div class="tech-spec-item"><span class="label">BPM</span><span class="value">82 (슬로우 발라드)</span></div>
+                            <div class="tech-spec-item"><span class="label">메인 악기</span><span class="value">Mellotron, Real Strings</span></div>
+                            <div class="tech-spec-item"><span class="label">특이사항</span><span class="value">모노 오디오 트랙 지향 믹싱</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 데이터 3: 혁오 -->
+                <div class="story-card" data-genre="rock">
+                    <div class="story-header">
+                        <div class="artist-info">
+                            <span class="meta-tag">얼터너티브 / 인디 록</span>
+                            <h3>혁오 (HYUKOH)</h3>
+                        </div>
+                        <div class="track-specs">
+                            <span class="track-title-badge">TOMBOY</span>
+                            <div class="track-tech-meta">발매: 2017 | Key: Eb Major</div>
+                        </div>
+                    </div>
+                    <div class="story-body">
+                        <h4>제작 맥락 및 셋업 비하인드</h4>
+                        <p>정규 1집 [23]의 타이틀 곡으로, 독일 베를린의 Hansa Tonstudio에서 레코딩 및 믹싱 작업을 진행하여 사운드의 밀도를 높였습니다. 곡 후반부에 대규모 코러스가 합창하는 플러그인 연출 대신 멤버들이 마이크 한 대를 중심으로 멀티 트래킹 레이어링 기법을 사용하여 날것의 룸 앰비언스를 의도적으로 유도했습니다.</p>
+                        <div class="tech-specs-box">
+                            <div class="tech-spec-item"><span class="label">BPM</span><span class="value">114 (미디엄 록)</span></div>
+                            <div class="tech-spec-item"><span class="label">메인 악기</span><span class="value">Gibson ES-335, Precision Bass</span></div>
+                            <div class="tech-spec-item"><span class="label">특이사항</span><span class="value">베를린 한사 스튜디오 엔지니어링</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 데이터 4: 실리카겔 -->
+                <div class="story-card" data-genre="rock">
+                    <div class="story-header">
+                        <div class="artist-info">
+                            <span class="meta-tag">네오 사이케델릭 / 매스 록</span>
+                            <h3>실리카겔 (Silica Gel)</h3>
+                        </div>
+                        <div class="track-specs">
+                            <span class="track-title-badge">NO PAIN</span>
+                            <div class="track-tech-meta">발매: 2022 | Key: D Minor</div>
+                        </div>
+                    </div>
+                    <div class="story-body">
+                        <h4>제작 맥락 및 셋업 비하인드</h4>
+                        <p>2020년대 한국 인디 신의 사운드 벤치마크 모델로 꼽히는 곡입니다. 프로듀싱을 맡은 기타리스트 김춘추의 정교한 톤 메이킹 하에 Electro-Harmonix Big Muff 퍼즈 이펙터와 정교한 DAW 미디 싱크를 결합했습니다. 보컬 김한주의 신시사이저 아르페지에이터 리프가 곡 전체의 하이테크적인 텐션을 유지합니다.</p>
+                        <div class="tech-specs-box">
+                            <div class="tech-spec-item"><span class="label">BPM</span><span class="value">142 (업템포 매스록)</span></div>
+                            <div class="tech-spec-item"><span class="label">메인 악기</span><span class="value">Fuzzed Guitar, Prophet-6 Synth</span></div>
+                            <div class="tech-spec-item"><span class="label">특이사항</span><span class="value">고해상도 디지털/아날로그 하이브리드</span></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 타임라인 섹션 -->
+        <section id="timeline">
+            <h2 class="section-title"><i class="fa-solid fa-history"></i> 아카이브 등록 트랙 크로놀로지</h2>
+            <div class="section-desc">본 아카이브가 다루는 주요 곡들의 발매 연혁과 인디 씬의 기술적 분기점입니다.</div>
+            <div class="timeline-container">
+                <div class="timeline-node">
+                    <div class="timeline-date">2016. 01</div>
+                    <div class="timeline-content">
+                        <h4>검정치마 'Everything' 발매</h4>
+                        <p>한국 인디 미니멀리즘 침실 프로덕션(Bedroom Pop)의 대중적 확장 계기 마련.</p>
+                    </div>
+                </div>
+                <div class="timeline-node">
+                    <div class="timeline-date">2017. 04</div>
+                    <div class="timeline-content">
+                        <h4>혁오 정규 1집 [23] 및 'TOMBOY' 공개</h4>
+                        <p>유럽 스튜디오 로케이션 레코딩 도입을 통한 하이파이 얼터너티브 사운드 구축 공고화.</p>
+                    </div>
+                </div>
+                <div class="timeline-node">
+                    <div class="timeline-date">2019. 03</div>
+                    <div class="timeline-content">
+                        <h4>잔나비 '주저하는 연인들을 위해' 발매</h4>
+                        <p>레트로 아날로그 소스(멜로트론 등)와 전통 가요 화성의 성공적인 융합 사례 등록.</p>
+                    </div>
+                </div>
+                <div class="timeline-node">
+                    <div class="timeline-date">2022. 08</div>
+                    <div class="timeline-content">
+                        <h4>실리카겔 싱글 'NO PAIN' 발매</h4>
+                        <p>화려한 악기 세션 플레이와 테크니컬 프로그래밍의 결합으로 인디 신 트렌드 전환.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 피드백 로그 섹션 -->
+        <section id="feedback">
+            <h2 class="section-title"><i class="fa-solid fa-comment-dots"></i> 리스너 피드백 로그</h2>
+            <div class="section-desc">아카이브 트랙 데이터에 대한 열린 피드백 분석 공간입니다.</div>
+            <div class="guestbook-box">
+                <form class="guestbook-form" id="guestbook-form">
+                    <input type="text" id="v-name" class="guestbook-input" placeholder="로그 작성자" required maxlength="10">
+                    <input type="text" id="v-msg" class="guestbook-input" placeholder="사운드 데이터에 대한 분석 의견 또는 한 줄 평가" required maxlength="60">
+                    <button type="submit" class="guestbook-submit">기록</button>
+                </form>
+                <div class="guestbook-list" id="log-list"></div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 IRDA (Indie Record Data Archive). All rights reserved.</p>
+    </footer>
+
+    <!-- 자바스크립트 로직 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. 스크롤 진행 바 및 ScrollSpy 활성화
+            const progressBar = document.getElementById('scroll-progress-bar');
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-links a');
+
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                if(docHeight > 0) {
+                    progressBar.style.width = (scrollTop / docHeight) * 100 + '%';
+                }
+
+                // ScrollSpy 로직
+                let currentSectionId = '';
+                sections.forEach(sec => {
+                    const secTop = sec.offsetTop - 80;
+                    if (scrollTop >= secTop) {
+                        currentSectionId = sec.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${currentSectionId}`) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+            // 2. 파티클 효과 (TEEN TROUBLES 아날로그 더스트 무드 변경)
+            const canvas = document.getElementById('particle-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            for (let i = 0; i < 30; i++) {
+                particles.push({
+                    x: Math.random() * window.innerWidth,
+                    y: Math.random() * window.innerHeight,
+                    r: Math.random() * 1.2 + 0.6,
+                    d: Math.random() * -0.08 - 0.03
+                });
+            }
+
+            function draw() {
+                ctx.clearRect(0,0,canvas.width,canvas.height);
+                // 빛바랜 붉은 광도의 미세 먼지 연출
+                ctx.fillStyle = "rgba(225, 29, 72, 0.15)";
+                particles.forEach(p => {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+                    ctx.fill();
+                    p.y += p.d;
+                    if(p.y < 0) {
+                        p.y = canvas.height;
+                        p.x = Math.random() * canvas.width;
+                    }
+                });
+                requestAnimationFrame(draw);
+            }
+            draw();
+
+            // 3. 데이터 장르 필터링 기능
+            window.filterGenre = function(genre) {
+                const cards = document.querySelectorAll('.story-card');
+                const buttons = document.querySelectorAll('.filter-btn');
+                
+                buttons.forEach(btn => btn.classList.remove('active'));
+                event.target.classList.add('active');
+
+                let count = 0;
+                cards.forEach(card => {
+                    if (genre === 'all' || card.getAttribute('data-genre') === genre) {
+                        card.style.display = 'block';
+                        count++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                document.getElementById('archive-count').innerText = `조회된 데이터: ${count}건`;
+            };
+
+            // 4. LocalStorage 데이터 피드백 로그 관리
+            const form = document.getElementById('guestbook-form');
+            const nameIn = document.getElementById('v-name');
+            const msgIn = document.getElementById('v-msg');
+            const logList = document.getElementById('log-list');
+
+            let logs = JSON.parse(localStorage.getItem('irda_logs')) || [];
+
+            function renderLogs() {
+                logList.innerHTML = '';
+                if(logs.length === 0) {
+                    logList.innerHTML = '<div style="color:var(--text-muted); text-align:center; padding:20px; font-size:0.85rem;">등록된 피드백 로그가 존재하지 않습니다.</div>';
+                    return;
+                }
+                logs.forEach((l, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'log-item';
+                    item.innerHTML = `
+                        <div class="log-main">
+                            <div class="meta"><span class="name">${escape(l.name)}</span><span class="date">${l.date}</span></div>
+                            <div class="text">${escape(l.msg)}</div>
+                        </div>
+                        <button class="log-delete-btn" onclick="deleteLog(${index})"><i class="fa-solid fa-trash-can"></i></button>
+                    `;
+                    logList.appendChild(item);
+                });
+            }
+
+            function escape(str) {
+                return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            }
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                if(!nameIn.value.trim() || !msgIn.value.trim()) return;
+                
+                const d = new Date();
+                const dStr = `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
+
+                logs.unshift({ name: nameIn.value.trim(), msg: msgIn.value.trim(), date: dStr });
+                localStorage.setItem('irda_logs', JSON.stringify(logs));
+                
+                nameIn.value = '';
+                msgIn.value = '';
+                renderLogs();
+            });
+
+            window.deleteLog = function(index) {
+                logs.splice(index, 1);
+                localStorage.setItem('irda_logs', JSON.stringify(logs));
+                renderLogs();
+            };
+
+            renderLogs();
+        });
+    </script>
+</body>
+</html>
