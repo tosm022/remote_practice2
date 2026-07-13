@@ -6,16 +6,16 @@
 
 - 두 개의 원격 저장소 연결:
   
-                  내 컴퓨터
-            git-practice (로컬 저장소)
-                    |
-            -------------------
-            |                 |
-        origin           github2
-            |                 |
-            ↓                 ↓
-    remote_practice2   remote_practice3
-        (GitHub)          (GitHub)
+                        내 컴퓨터
+                  git-practice (로컬 저장소)
+                          |
+                  -------------------
+                  |                 |
+              origin           github2
+                  |                 |
+                  ↓                 ↓
+          remote_practice2   remote_practice3
+              (GitHub)          (GitHub)
 
 - 명령어 모음:
     - | `git init` | 로컬 저장소 생성 | git-practice 생성|
